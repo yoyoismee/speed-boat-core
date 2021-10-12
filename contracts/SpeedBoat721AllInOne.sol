@@ -3,11 +3,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 
 contract OwnableDelegateProxy {}
 
@@ -34,6 +32,7 @@ contract SpeedBoat721AllInOne is
     address private beneficiary;
     address private constant speedBoatFee =
         0x6647a7858a0B3846AbD5511e7b797Fc0a0c63a4b; // I need some food la :)
+    uint256 private constant invFee = 50; // invert fee e.g. 50 = 1/50 = 2%
 
     function initialize(
         string calldata name,
@@ -50,7 +49,7 @@ contract SpeedBoat721AllInOne is
     }
 
     function withdraw() public nonReentrant {
-        payable(speedBoatFee).transfer(address(this).balance / 10); // let me have 10%
+        payable(speedBoatFee).transfer(address(this).balance / invFee); // some food for speedboat team
         payable(beneficiary).transfer(address(this).balance);
     }
 
@@ -152,7 +151,7 @@ contract SpeedBoat721AllInOne is
         return super.isApprovedForAll(owner, operator);
     }
 
-    // @dev for opensea. they recognize owner as creator
+    // @dev just to show who's the boss!
     function owner() public view virtual returns (address) {
         return beneficiary;
     }

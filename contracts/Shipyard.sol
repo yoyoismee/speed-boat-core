@@ -20,6 +20,13 @@ contract Shipyard {
         tokenImplementation = address(new SpeedBoat721AllInOne());
     }
 
+    // @dev deploy new NFT + sell. basic
+    // @param name NFT name (721 standard)
+    // @param symbol NFT symbol (721 standard)
+    // @param baseTokenURI NFT baseTokenURI (721 standard)
+    // @param price - selling price per NFT. in wei
+    // @param _maxSupply - max NFT to be sell
+    // @param _beneficiary - who take the mooney. (can be user's or contract e.g. payment splitter)
     function setSail(
         string calldata name,
         string calldata symbol,
